@@ -10,11 +10,10 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tool_bar"
-        android:layout_alignParentBottom="true"
         android:weightSum="1">
 
         <FrameLayout
@@ -120,66 +119,6 @@
 
 
 
-                        <android.support.design.widget.TextInputLayout
-                        android:id="@+id/label_faktor_a"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                        android:id="@+id/input_faktor_a"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:hint="Faktor Konversi A" />
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                        android:id="@+id/label_faktor_b"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                        android:id="@+id/input_faktor_b"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text=""
-                        android:hint="Faktor Konversi B" />
-                        </android.support.design.widget.TextInputLayout>
-
-
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/label_harga"
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content">
-
-                            <EditText
-                                android:id="@+id/input_harga"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text=""
-                                android:inputType="number"
-                                android:hint="Perkiran Harga (Rp/Kg)" />
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/label_tujuan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <EditText
-                                android:id="@+id/input_tujuan"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text=""
-                                android:hint="Tujuan Ikan" />
-                        </android.support.design.widget.TextInputLayout>
-
-
-
                     </LinearLayout>
 
 
@@ -207,11 +146,13 @@
                 android:layout_height="wrap_content"
                 android:hint="Cari Ikan"
                     android:height="2dp"
-                android:inputType="textVisiblePassword"/>
+                android:inputType="textVisiblePassword"
+                    android:padding="10dp" />
 
                 <ListView android:id="@+id/list_ikan" android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.15" />
+                    android:layout_weight="1.15"
+                    android:padding="10dp" />
 
             </LinearLayout>
         </FrameLayout>
@@ -225,7 +166,8 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|bottom">
+                android:layout_gravity="center_horizontal|bottom"
+                android:weightSum="1">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -255,6 +197,14 @@
                             android:text="10"
                             android:textSize="50dp" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Detail Timbang"
+                            android:id="@+id/textView4"
+                            android:foreground="@drawable/garis_bawah_biru" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -280,7 +230,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/hasil_timbang"
-                            android:text="120 "
+                            android:text="000"
                             android:padding="10dp"
                             android:textColor="#b86e4c"
                             android:textSize="50dp"
@@ -299,36 +249,115 @@
 
 
                 <!--SIMPAN-->
-                <LinearLayout
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:background="@drawable/garis_bawah_biru"
-                    android:layout_height="60dp"
-                    android:weightSum="1"
-                    android:focusable="true"
-                    android:padding="10dp">
-
-                    <Button
-                        android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Simpan"
-                        android:drawableLeft="@drawable/ic_cloud_upload_black_24dp"  />
+                        android:layout_weight="1.03"
+                        android:weightSum="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Simpan ke server"
-                        android:id="@+id/textView3"
-                        android:foregroundGravity="right"
-                        android:gravity="right" />
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/label_faktor_a"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                </LinearLayout>
+                            <EditText
+                                android:id="@+id/input_faktor_a"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:hint="Faktor Konversi A" />
 
-                <ListView
-                    android:layout_width="match_parent"
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/label_faktor_b"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/input_faktor_b"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text=""
+                                android:hint="Faktor Konversi B" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/label_harga"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/input_tujuan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text=""
+                                android:hint="Tujuan Ikan" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/label_tujuan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/input_harga"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text=""
+                                android:inputType="number"
+                                android:hint="Perkiran Harga (Rp/Kg)" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="223dp"
+                            android:layout_height="wrap_content"
+                            android:text="*Pilih jenis ikan"
+                            android:id="@+id/textView5"
+                            android:layout_gravity="left|center_horizontal"
+                            android:layout_weight="0.09" />
+
+
+                    </LinearLayout>
+                </ScrollView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="60dp"
+                android:weightSum="1"
+                android:focusable="true"
+                android:padding="10dp"
+                android:gravity="bottom|right"
+                android:layout_gravity="bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_timbang" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Simpan ke server"
+                    android:id="@+id/textView3"
+                    android:foregroundGravity="right"
+                    android:gravity="right" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Simpan"
+                    android:drawableLeft="@drawable/ic_cloud_upload_black_24dp"  />
 
             </LinearLayout>
 

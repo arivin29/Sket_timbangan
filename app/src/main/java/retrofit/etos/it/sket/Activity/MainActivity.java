@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         //list ikan
         listView = (ListView) findViewById(R.id.list_ikan);
-        listView_timbang = (ListView) findViewById(R.id.list_timbang);
+//        listView_timbang = (ListView) findViewById(R.id.list_timbang);
         getDataIkan();
 
-        getDataTimbang();
+//        getDataTimbang();
     }
 
     private void getDataIkan()
@@ -117,28 +117,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getDataTimbang()
-    {
-        int id = 1;
-        TimbangInterface timbangInterface = ApiCLient.getClient().create(TimbangInterface.class);
-        Call<TimbangRespon> call = timbangInterface.getData(id);
-        call.enqueue(new Callback<TimbangRespon>() {
-            @Override
-            public void onResponse(Call<TimbangRespon> call, Response<TimbangRespon> response) {
-                List<Timbang> tmb = response.body().getList_timbang();
-                TimbangAdaptor adaptor = new TimbangAdaptor(getApplicationContext(),R.id.list_timbang,tmb);
-
-                listView_timbang.setAdapter(adaptor);
-            }
-
-            @Override
-            public void onFailure(Call<TimbangRespon> call, Throwable t) {
-
-            }
-        });
-
-    }
-
+//    private void getDataTimbang()
+//    {
+//        int id = 1;
+//        TimbangInterface timbangInterface = ApiCLient.getClient().create(TimbangInterface.class);
+//        Call<TimbangRespon> call = timbangInterface.getData(id);
+//        call.enqueue(new Callback<TimbangRespon>() {
+//            @Override
+//            public void onResponse(Call<TimbangRespon> call, Response<TimbangRespon> response) {
+//                List<Timbang> tmb = response.body().getList_timbang();
+//                TimbangAdaptor adaptor = new TimbangAdaptor(getApplicationContext(),R.id.list_timbang,tmb);
+//
+//                listView_timbang.setAdapter(adaptor);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<TimbangRespon> call, Throwable t) {
+//
+//            }
+//        });
+//
+//    }
+//
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

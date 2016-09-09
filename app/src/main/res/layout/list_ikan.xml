@@ -6,11 +6,11 @@
     <!-- Thumbnail Image -->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
-        android:src="@android:drawable/sym_action_chat" />
+        android:src="@android:drawable/ic_menu_gallery" />
 
     <TextView
         android:id="@+id/name"
@@ -20,15 +20,15 @@
         android:layout_toRightOf="@+id/thumbnail"
         android:textStyle="bold"
         android:textColor="#111"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="5dp"
         android:text="Gojek" />
 
     <TextView
         android:id="@+id/isi_pesan"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="isi pesan isi pesan isi pesan isi pesan isi pesan isi pesan isi pesan isi pesan "
-        android:lines="3"
+        android:text="Keterangan ikan (Rp. 5.200 kg) "
+        android:lines="1"
         android:layout_below="@+id/name"
         android:textColor="#111"
         android:layout_alignLeft="@+id/name"
