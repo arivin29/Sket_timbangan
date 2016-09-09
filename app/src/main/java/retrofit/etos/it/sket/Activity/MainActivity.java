@@ -2,14 +2,8 @@ package retrofit.etos.it.sket.Activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.net.wifi.WifiManager;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,20 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
-import app.akexorcist.bluetotohspp.library.BluetoothSPP;
-import app.akexorcist.bluetotohspp.library.BluetoothState;
-import app.akexorcist.bluetotohspp.library.DeviceList;
-import retrofit.etos.it.sket.Adapter.ConnectBtAdapter;
 import retrofit.etos.it.sket.Adapter.IkanAdaptor;
 import retrofit.etos.it.sket.Adapter.TimbangAdaptor;
 import retrofit.etos.it.sket.Api.IkanInterface;
@@ -43,6 +30,9 @@ import retrofit.etos.it.sket.Model.IkanRespon;
 import retrofit.etos.it.sket.Model.Timbang;
 import retrofit.etos.it.sket.Model.TimbangRespon;
 import retrofit.etos.it.sket.R;
+import retrofit.etos.it.sket.Service.BluetoothSPP;
+import retrofit.etos.it.sket.Service.BluetoothState;
+import retrofit.etos.it.sket.Service.DeviceList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ListView listView_timbang;
 
-    public String address;
-    public String nama;
+    public String address =null;
+    public String nama =null;
     BluetoothSPP bt;
-    TextView hasilTimbang;
+    TextView textStatus, textRead;
+    EditText etMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,13 +161,107 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void BacaBtTm(String address, String name) {
+        bt = new BluetoothSPP(this);
 
-        Log.e("hasil", address + name);
-    }
-    public void setup() {
+        textRead = (TextView)findViewById(R.id.hasil_timbang);
+        textStatus = (TextView)findViewById(R.id.statusBt);
 
-        bt.autoConnect("HC-05");
+        bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
+            public void onDataReceived(byte[] data, String message) {
+                textRead.setText(message + "");
+            }
+        });
+
+        bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
+            public void onDeviceDisconnected() {
+                textStatus.setText("BT Not connect");
+//                menu.clear();
+//                getMenuInflater().inflate(R.menu.menu_connection, menu);
+            }
+
+            public void onDeviceConnectionFailed() {
+                textStatus.setText("BT Connection failed");
+            }
+
+            public void onDeviceConnected(String name, String address) {
+                textStatus.setText("Connected " + name);
+//                menu.clear();
+//                getMenuInflater().inflate(R.menu.menu_disconnection, menu);
+            }
+        });
+
+        bt.setAutoConnectionListener(new BluetoothSPP.AutoConnectionListener() {
+            public void onNewConnection(String name, String address) {
+                Log.e("Check", "New Connection - " + name + " - " + address);
+            }
+
+            public void onAutoConnectionStarted() {
+                Log.e("Check", "Auto menu_connection started");
+            }
+        });
+
+        if(address !=null)
+        {
+            Log.e("status",address);
+            bt.disconnect();
+            bt.setupService();
+            bt.startService(BluetoothState.DEVICE_ANDROID);
+            bt.connect(address);
+        }
+        textStatus.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(bt.getServiceState() == BluetoothState.STATE_CONNECTED) {
+                    bt.disconnect();
+                    Log.i("MainActivity","Gagal Connnect");
+                } else {
+                    bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+
+                    Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+                    startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+                }
+
+            }
+        });
+
     }
+
+    public void onDestroy() {
+        super.onDestroy();
+        bt.stopService();
+    }
+
+    public void onStart() {
+        super.onStart();
+        if (!bt.isBluetoothEnabled()) {
+            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(intent, BluetoothState.REQUEST_ENABLE_BT);
+        } else {
+            if(!bt.isServiceAvailable()) {
+                bt.setupService();
+                bt.startService(BluetoothState.DEVICE_ANDROID);
+//                DashboardActivity.setup();
+            }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == BluetoothState.REQUEST_CONNECT_DEVICE) {
+            if(resultCode == Activity.RESULT_OK)
+                bt.connect(data);
+        } else if(requestCode == BluetoothState.REQUEST_ENABLE_BT) {
+            if(resultCode == Activity.RESULT_OK) {
+                bt.setupService();
+                bt.startService(BluetoothState.DEVICE_ANDROID);
+//                DashboardActivity.setup();
+            } else {
+                Toast.makeText(getApplicationContext()
+                        , "Bluetooth was not enabled."
+                        , Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
 
 
 

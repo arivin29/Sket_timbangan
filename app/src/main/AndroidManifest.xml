@@ -29,10 +29,12 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" />
 
-        <!--<service-->
-            <!--android:name=".Service.BluetothService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true"></service>-->
+          <activity
+            android:name=".Service.DeviceList"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+
+
     </application>
 
 </manifest>
