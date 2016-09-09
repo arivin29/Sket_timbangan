@@ -1,7 +1,15 @@
 package retrofit.etos.it.sket.Activity;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,12 +18,21 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import app.akexorcist.bluetotohspp.library.BluetoothSPP;
+import app.akexorcist.bluetotohspp.library.BluetoothState;
+import app.akexorcist.bluetotohspp.library.DeviceList;
+import retrofit.etos.it.sket.Adapter.ConnectBtAdapter;
 import retrofit.etos.it.sket.Adapter.IkanAdaptor;
 import retrofit.etos.it.sket.Adapter.TimbangAdaptor;
 import retrofit.etos.it.sket.Api.IkanInterface;
@@ -36,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ListView listView_timbang;
 
-    public IkanAdaptor ikanAdaptor = null;
+    public String address;
+    public String nama;
+    BluetoothSPP bt;
+    TextView hasilTimbang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
         toolbar  = (Toolbar)findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+
+
+        //ambil setingan
+        Intent newIntent = getIntent();
+        address = newIntent.getStringExtra("alamat");
+        nama = newIntent.getStringExtra("nama");
+
+        BacaBtTm(address,nama);
 
 
         //list ikan
@@ -134,11 +162,22 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.pengaturan)
         {
-            Intent i = new Intent(MainActivity.this, Bluethoot.class);
+            Intent i = new Intent(MainActivity.this, Pengaturan.class);
             startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void BacaBtTm(String address, String name) {
+
+        Log.e("hasil", address + name);
+    }
+    public void setup() {
+
+        bt.autoConnect("HC-05");
+    }
+
+
 
 }

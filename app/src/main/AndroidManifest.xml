@@ -3,16 +3,20 @@
     package="retrofit.etos.it.sket">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="TIMBANGAN"
         android:supportsRtl="true"
-        android:windowSoftInputMode="adjustResize"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:windowSoftInputMode="adjustResize">
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.Pengaturan"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Bluethoot"></activity>
+        <activity
+            android:name=".Activity.MainActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!--<service-->
+            <!--android:name=".Service.BluetothService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true"></service>-->
     </application>
 
 </manifest>
