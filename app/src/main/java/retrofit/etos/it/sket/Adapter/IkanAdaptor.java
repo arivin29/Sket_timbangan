@@ -27,15 +27,18 @@ import retrofit.etos.it.sket.R;
 public class IkanAdaptor extends BaseAdapter implements Filterable{
 
     private Context context;
-    private List<Ikan>ikanList=null;
+    private List<Ikan> ikanList=null;
     private List<Ikan> filterIkan = null;
     private Filter mFilter;
 
-    public IkanAdaptor(Context context, List<Ikan> data)
+    TextView pilihIkan;
+
+    public IkanAdaptor(Context context, List<Ikan> data, TextView pilihIkan)
     {
         this.context = context;
         this.ikanList = data;
         this.filterIkan = data;
+        this.pilihIkan = pilihIkan;
     }
 
     @Override
@@ -54,10 +57,9 @@ public class IkanAdaptor extends BaseAdapter implements Filterable{
     }
 
 
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(final int position, View convertView, ViewGroup parent)
     {
-        ViewHolder holder;
-
+        final ViewHolder holder;
         if(convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,6 +74,15 @@ public class IkanAdaptor extends BaseAdapter implements Filterable{
         }
 
         holder.text.setText("" + filterIkan.get(position).getNama_ikan());
+
+//      Jiko di klik item
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Log.e("hasil", filterIkan.get(position).getNama_ikan());
+                pilihIkan.setText(filterIkan.get(position).getNama_ikan());
+            }
+        });
         return convertView;
     }
 

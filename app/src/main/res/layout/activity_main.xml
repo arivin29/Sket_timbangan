@@ -45,6 +45,12 @@
                             android:src="@drawable/barcode_image"
                             android:scaleType="fitXY" />
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="New Text"
+                            android:id="@+id/text_barcode" />
+
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
@@ -116,7 +122,6 @@
                                 />
 
                         </LinearLayout>
-
 
 
                     </LinearLayout>
@@ -323,7 +328,7 @@
                             android:layout_width="223dp"
                             android:layout_height="wrap_content"
                             android:text="*Pilih jenis ikan"
-                            android:id="@+id/textView5"
+                            android:id="@+id/pilihIkan"
                             android:layout_gravity="left|center_horizontal"
                             android:layout_weight="0.09" />
 

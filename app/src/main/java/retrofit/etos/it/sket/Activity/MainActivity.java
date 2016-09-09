@@ -13,22 +13,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.util.List;
 
 import retrofit.etos.it.sket.Adapter.IkanAdaptor;
-import retrofit.etos.it.sket.Adapter.TimbangAdaptor;
 import retrofit.etos.it.sket.Api.IkanInterface;
-import retrofit.etos.it.sket.Api.TimbangInterface;
 import retrofit.etos.it.sket.ApiCLient;
 import retrofit.etos.it.sket.Model.Ikan;
 import retrofit.etos.it.sket.Model.IkanRespon;
-import retrofit.etos.it.sket.Model.Timbang;
-import retrofit.etos.it.sket.Model.TimbangRespon;
 import retrofit.etos.it.sket.R;
 import retrofit.etos.it.sket.Service.BluetoothSPP;
 import retrofit.etos.it.sket.Service.BluetoothState;
@@ -46,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
     public String address =null;
     public String nama =null;
     BluetoothSPP bt;
-    TextView textStatus, textRead;
+    TextView textStatus, textRead, pilihanIkan, text_barcode;
     EditText etMessage;
+
+    //barcode
+    ImageView id_barcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         nama = newIntent.getStringExtra("nama");
 
         BacaBtTm(address,nama);
+        BacaBarcode();
 
 
         //list ikan
@@ -78,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
     private void getDataIkan()
     {
         Log.d("mulai", "Cari data");
+        pilihanIkan = (TextView)findViewById(R.id.pilihIkan);
+
+
         IkanInterface ikanInterface = ApiCLient.getClient().create(IkanInterface.class);
         Call<IkanRespon> call = ikanInterface.getData();
         call.enqueue(new Callback<IkanRespon>() {
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<IkanRespon> call, Response<IkanRespon> response) {
                 Log.d("mulai", "dapat data");
                 List<Ikan> ikan = response.body().getListIkan();
-                final IkanAdaptor ikanAdaptor = new IkanAdaptor(getApplicationContext(),ikan);
+                final IkanAdaptor ikanAdaptor = new IkanAdaptor(getApplicationContext(),ikan,pilihanIkan);
                 listView.setAdapter(ikanAdaptor);
 
 
@@ -115,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 //    private void getDataTimbang()
@@ -245,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if(requestCode == BluetoothState.REQUEST_CONNECT_DEVICE) {
             if(resultCode == Activity.RESULT_OK)
                 bt.connect(data);
@@ -260,8 +271,39 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+        else
+        {
+            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (scanningResult != null) {
+                String scanContent = scanningResult.getContents();
+//                String scanFormat = scanningResult.getFormatName();
+                text_barcode.setText("CONTENT: " + scanContent);
+            }else{
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "No scan data received!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+
     }
 
+
+    /*----------------------------------------------*/
+//    Barcode
+    /*----------------------------------------------*/
+
+    private void BacaBarcode()
+    {
+        text_barcode = (TextView) findViewById(R.id.text_barcode);
+        id_barcode = (ImageView) findViewById(R.id.id_barcode);
+        id_barcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
+                intentIntegrator.initiateScan();
+            }
+        });
+    }
 
 
 
