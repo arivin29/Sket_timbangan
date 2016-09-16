@@ -5,7 +5,7 @@ package retrofit.etos.it.sket.Model;
  */
 public class Timbang {
 
-    private int berat;
+    private Double berat;
 
     private int id_user;
 
@@ -35,12 +35,14 @@ public class Timbang {
 
     private int harga;
 
-    public int getBerat ()
+    private String keyUnik;
+
+    public Double getBerat ()
     {
         return berat;
     }
 
-    public void setBerat (int berat)
+    public void setBerat (Double berat)
     {
         this.berat = berat;
     }
@@ -182,6 +184,15 @@ public class Timbang {
     public void setHarga (int harga)
     {
         this.harga = harga;
+    }
+
+    public String getKeyUnik()
+    {
+        return keyUnik;
+    }
+
+    public void setKeyUnik(String keyUnik) {
+        this.keyUnik = keyUnik;
     }
 
     @Override

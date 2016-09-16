@@ -45,11 +45,7 @@
                             android:src="@drawable/barcode_image"
                             android:scaleType="fitXY" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="New Text"
-                            android:id="@+id/text_barcode" />
+
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -58,6 +54,22 @@
                             android:padding="10dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/id_barcode_label"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/input_id_barcode"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:numeric="integer"
+                                    android:text=""
+                                    android:hint="Id_barcode" />
+
+                            </android.support.design.widget.TextInputLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -68,6 +80,7 @@
                                 android:layout_height="match_parent"
                                 android:text="ANUGRAH PERTAMA II"
                                 android:textColor="@color/orange"
+                                android:id="@+id/nama_kapal"
                                 android:textSize="20dp"
                                 android:paddingBottom="10dp"
                                 android:background="@drawable/garis_bawah_biru"
@@ -83,6 +96,24 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="GHG5422525-UJ"
+                                android:id="@+id/no_izin_kapal"
+                                android:textColor="@color/orange"
+                                android:textSize="20dp"
+                                android:paddingBottom="10dp"
+                                android:background="@drawable/garis_bawah_biru"
+                                />
+
+                            <!--Alat Tangkap-->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:layout_height="match_parent"
+                                android:text="Alat Tangkap"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="PUKAT CINCIN"
+                                android:id="@+id/alat_tangkap"
                                 android:textColor="@color/orange"
                                 android:textSize="20dp"
                                 android:paddingBottom="10dp"
@@ -245,7 +276,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="Small Text"
+                            android:text="Pilih Timbangnan"
                             android:id="@+id/statusBt" />
 
                     </LinearLayout>
@@ -362,7 +393,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Simpan"
-                    android:drawableLeft="@drawable/ic_cloud_upload_black_24dp"  />
+                    android:drawableLeft="@drawable/ic_cloud_upload_black_24dp"
+                    android:id="@+id/btn_simpan" />
 
             </LinearLayout>
 
