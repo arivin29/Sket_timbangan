@@ -1,5 +1,8 @@
 package retrofit.etos.it.sket.Model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by IT on 06/09/2016.
  */
@@ -199,5 +202,37 @@ public class Timbang {
     public String toString()
     {
         return "ClassPojo [berat = "+berat+", id_user = "+id_user+", kode_timbang = "+kode_timbang+", status_timbang = "+status_timbang+", tanggal_timbang = "+tanggal_timbang+", satuan = "+satuan+", id_kapal = "+id_kapal+", id_ikan = "+id_ikan+", id_timbang = "+id_timbang+", upi = "+upi+", faktor_b = "+faktor_b+", faktor_a = "+faktor_a+", id_timbang_detail = "+id_timbang_detail+", harga = "+harga+"]";
+    }
+
+    public JSONObject toJSON()
+    {
+
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("berat",getBerat());
+            jsonObject.put("id_user",getId_user());
+            jsonObject.put("kode_timbang",getKode_timbang());
+            jsonObject.put("nama_ikan",getNama_ikan());
+            jsonObject.put("status_timbang",getStatus_timbang());
+            jsonObject.put("tanggal_timbang",getTanggal_timbang());
+            jsonObject.put("satuan",getSatuan());
+            jsonObject.put("id_kapal",getId_kapal());
+            jsonObject.put("id_ikan",getId_ikan());
+            jsonObject.put("id_timbang",getId_timbang());
+            jsonObject.put("upi",getUpi());
+            jsonObject.put("faktor_b",getFaktor_a());
+            jsonObject.put("faktor_a",getFaktor_b());
+            jsonObject.put("id_timbang_detail",getId_timbang_detail());
+            jsonObject.put("harga",getHarga());
+            jsonObject.put("keyUnik",getKeyUnik());
+
+            return  jsonObject;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
     }
 }

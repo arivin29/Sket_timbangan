@@ -68,7 +68,7 @@ public class SocketKirim {
 
 
         db_timbang.addTimbang(timbang);
-        mSocket.emit("send", timbang);
+        mSocket.emit("send", timbang.toJSON());
         context = contexts;
         listView_timbang = listViews;
 
