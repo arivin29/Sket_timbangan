@@ -1,7 +1,10 @@
 package retrofit.etos.it.sket.Interface;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.etos.it.sket.Model.Kapal;
 import retrofit.etos.it.sket.Model.Timbang;
@@ -14,4 +17,7 @@ public interface Db_timbangInt {
     public ArrayList<Timbang> getAllTimbang(int id);
     public Timbang getTimbang(int id);
     public int getTimbangCount(int id);
+    public boolean updateData(String keyUnik);
+    public  ArrayList<Timbang> ambilData(String keyUnik);
+    public ArrayList<HashMap<String, String>> countTimbang(String keyUnik);
 }

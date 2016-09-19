@@ -128,6 +128,7 @@ public class DB_kapal extends SQLiteOpenHelper implements Db_kapalInt {
                   kapal.setKeyUnik(cursor.getString(8));
 
                   kapals.add(kapal);
+
               }
         }
         db.close();

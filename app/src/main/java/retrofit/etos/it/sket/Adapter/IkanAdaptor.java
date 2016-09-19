@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit.etos.it.sket.Activity.MainActivity;
 import retrofit.etos.it.sket.Model.Ikan;
 import retrofit.etos.it.sket.R;
 
@@ -79,8 +80,9 @@ public class IkanAdaptor extends BaseAdapter implements Filterable{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Log.e("hasil", filterIkan.get(position).getNama_ikan());
+                Log.e("hasil", String.valueOf(filterIkan.get(position).getIdIkan()));
                 pilihIkan.setText(filterIkan.get(position).getNama_ikan());
+                MainActivity.id_ikan=filterIkan.get(position).getIdIkan();
             }
         });
         return convertView;

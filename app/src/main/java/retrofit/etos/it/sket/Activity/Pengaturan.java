@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,14 +37,24 @@ public class Pengaturan extends AppCompatActivity {
     public static String address = null;
     private BluetoothAdapter myBluetooth = null;
     private Set<BluetoothDevice> pairedDevices;
+    private WifiManager wifiManager;
     ListView devicelist;
+    public static String url ="http://arivin.xyz/TM/public/";
+    public static String ipMonitor = "http://192.168.1.10";
+    public static String monitorPort="3000";
 
-
+    private EditText textUrl;
+    private EditText textIpMonitor;
+    private EditText textMonitorPort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengaturan);
+
+        textUrl = (EditText) findViewById(R.id.input_url);
+        textIpMonitor = (EditText) findViewById(R.id.input_ip_monito);
+        textMonitorPort = (EditText) findViewById(R.id.input_monitor_port);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -60,9 +72,31 @@ public class Pengaturan extends AppCompatActivity {
         });
 
         //Wifi
-        final String namaWifi = getWifiName(getApplicationContext());
-        TextView wifi = (TextView) findViewById(R.id.wifi);
-        wifi.setText(namaWifi);
+
+        final TextView wifi = (TextView) findViewById(R.id.wifi);
+        Button buttonWifi = (Button) findViewById(R.id.button);
+        buttonWifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String ssid = null;
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+                if(wifiManager.isWifiEnabled()){
+                    final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+                    if (connectionInfo != null) {
+                        ssid = connectionInfo.getSSID();
+                    }
+                }else {
+                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+                    ssid = connectionInfo.getSSID();
+                }
+                wifi.setText(ssid);
+            }
+        });
 
         myBluetooth();
 
@@ -154,6 +188,10 @@ public class Pengaturan extends AppCompatActivity {
 
     private void PindahKaMain(String address,String nama)
     {
+        url = textUrl.getText().toString();
+        ipMonitor = textIpMonitor.getText().toString();
+        monitorPort = textMonitorPort.getText().toString();
+
         Intent intent = new Intent(Pengaturan.this, MainActivity.class);
         intent.putExtra("alamat", address); //this will be received at ledControl (class) Activity
         intent.putExtra("nama", name); //this will be received at ledControl (class) Activity

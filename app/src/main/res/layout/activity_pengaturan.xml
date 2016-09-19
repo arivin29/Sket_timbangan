@@ -25,70 +25,198 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/bar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="top|center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:layout_margin="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top|center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="153dp"
+                    android:layout_height="wrap_content"
+                    android:text="Wifi"
+                    android:id="@+id/button" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Akses point"
+                    android:id="@+id/wifi"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:gravity="top|bottom"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="3.28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <Button
+                    android:layout_width="155dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bluetooth"
+                    android:id="@+id/togle_blutooth" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Pilih Bluetoth"
+                    android:id="@+id/pilhan_bt"
+                    android:foregroundGravity="center_vertical|center|center_horizontal"
+                    android:gravity="top|bottom"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="2.05" />
+
+            </LinearLayout>
 
             <Button
                 android:layout_width="153dp"
                 android:layout_height="wrap_content"
-                android:text="Wifi"
-                android:id="@+id/button" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Akses point"
-                android:id="@+id/wifi"
-                android:foregroundGravity="center_vertical|center|center_horizontal"
-                android:gravity="top|bottom"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="3.28" />
+                android:text="SIMPAN"
+                android:id="@+id/simpan_config" />
 
         </LinearLayout>
+        
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#ddd9d6"/>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.75"
+            android:layout_marginLeft="10dp">
 
-            <Button
-                android:layout_width="155dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bluetooth"
-                android:id="@+id/togle_blutooth" />
+                android:orientation="vertical"
+                android:layout_marginTop="50dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Pilih Bluetoth"
-                android:id="@+id/pilhan_bt"
-                android:foregroundGravity="center_vertical|center|center_horizontal"
-                android:gravity="top|bottom"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2.05" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Server"
+                    android:textSize="@dimen/font_size"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="50dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/weidth_label"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/label_server"
+                            android:text="Alamat url"
+                            android:textSize="@dimen/font_size"/>
+
+                        <EditText
+                            android:layout_width="@dimen/weidth_input"
+                            android:layout_height="wrap_content"
+                            android:text="http://arivin.xyz/TM/public/"
+                            android:id="@+id/input_url"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monitor"
+                    android:textSize="@dimen/font_size"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="50dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/weidth_label"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/label_ip_monitor"
+                            android:text="IP monitor"
+                            android:textSize="@dimen/font_size"/>
+
+                        <EditText
+                            android:layout_width="@dimen/weidth_input"
+                            android:layout_height="wrap_content"
+                            android:text="http://192.168.1.10"
+                            android:id="@+id/input_ip_monito"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/weidth_label"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/label_monitor_port"
+                            android:text="Port"
+                            android:textSize="@dimen/font_size"/>
+
+                        <EditText
+                            android:layout_width="@dimen/weidth_input"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/input_monitor_port"
+                            android:text="3000"
+                            android:inputType="number"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
-
-        <Button
-            android:layout_width="153dp"
-            android:layout_height="wrap_content"
-            android:text="SIMPAN"
-            android:id="@+id/simpan_config" />
 
     </LinearLayout>
 

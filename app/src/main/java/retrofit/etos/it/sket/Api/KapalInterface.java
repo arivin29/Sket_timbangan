@@ -14,7 +14,7 @@ import retrofit2.http.Query;
  */
 public interface KapalInterface {
     @GET("kapal")
-    Call<Kapal> getData(@Query("id") int id);
+    Call<Kapal> getData(@Query("id") String id);
 
     @POST("timbang/simpan")
     Call<Kapal> simpanData(@Body Kapal kapal);
