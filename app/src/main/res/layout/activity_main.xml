@@ -78,7 +78,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="ANUGRAH PERTAMA II"
                                 android:textColor="@color/orange"
                                 android:id="@+id/nama_kapal"
                                 android:textSize="20dp"
@@ -95,7 +94,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="GHG5422525-UJ"
                                 android:id="@+id/no_izin_kapal"
                                 android:textColor="@color/orange"
                                 android:textSize="20dp"
@@ -112,7 +110,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="PUKAT CINCIN"
                                 android:id="@+id/alat_tangkap"
                                 android:textColor="@color/orange"
                                 android:textSize="20dp"
@@ -129,7 +126,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="061-JKT"
                                 android:textColor="@color/hitam"
                                 android:textSize="16dp"
                                 android:paddingBottom="10dp"
@@ -145,7 +141,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="MUHAMMAD ARIFIN"
                                 android:textColor="@color/hitam"
                                 android:textSize="16dp"
                                 android:paddingBottom="10dp"

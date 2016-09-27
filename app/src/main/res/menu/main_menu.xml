@@ -25,4 +25,11 @@ tools:context=".Activity.MainActivity">
         android:icon="@drawable/ic_help_outline_black_24dp"
         app:showAsAction="ifRoom"></item>
 
+    <item
+        android:id="@+id/trash_db"
+        android:orderInCategory="300"
+        android:title="kosongkan db"
+        android:icon="@drawable/ic_sync_black_24dp"
+        app:showAsAction="ifRoom"></item>
+
 </menu>

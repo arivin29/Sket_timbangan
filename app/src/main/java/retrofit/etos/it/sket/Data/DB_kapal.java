@@ -8,10 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.google.gson.annotations.SerializedName;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit.etos.it.sket.Interface.Db_kapalInt;
 import retrofit.etos.it.sket.Model.Kapal;
@@ -62,6 +63,11 @@ public class DB_kapal extends SQLiteOpenHelper implements Db_kapalInt {
         db.execSQL(sql);
     }
 
+    public void clearTable()   {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TBL_NAME, null,null);
+    }
+
     @Override
     public void addKapal(Kapal kapal) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -89,6 +95,49 @@ public class DB_kapal extends SQLiteOpenHelper implements Db_kapalInt {
         }
     }
 
+
+    public JSONObject toJSONallKapal() throws JSONException {
+
+        SQLiteDatabase db =this.getReadableDatabase();
+        String SQL = "Select * from " + TBL_NAME + " ORDER by " + ID + " DESC";
+        Cursor cursor = db.rawQuery(SQL,null);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        if(!cursor.isLast())
+        {
+
+            while (cursor.moveToNext())
+            {
+                JSONObject obj = new JSONObject();
+                if(cursor.getInt(0) < 1)
+                {
+                    obj.put("id_kapal", cursor.getInt(0));
+                }
+                else
+                {
+                    obj.put("id_kapal",cursor.getInt(1));
+                }
+
+                obj.put("no_induk", cursor.getInt(2));
+                obj.put("no_izin", cursor.getString(3));
+                obj.put("nama_kapal", cursor.getString(4));
+                obj.put("pemilik", cursor.getString(5));
+                obj.put("alat_tangkap", cursor.getString(6));
+                obj.put("status_izin",cursor.getInt(7));
+                obj.put("key_unik", cursor.getString(8));
+
+                array.put(obj);
+
+            }
+        }
+        db.close();
+        Log.e("berhasil","data di load");
+        return jsonObject.put("list_kapal", array);
+
+    }
+
     @Override
     public ArrayList<Kapal> getAllKapal() {
         SQLiteDatabase db =this.getReadableDatabase();
@@ -99,14 +148,6 @@ public class DB_kapal extends SQLiteOpenHelper implements Db_kapalInt {
         Cursor cursor = db.rawQuery(SQL,null);
         if(!cursor.isLast())
         {
-
-//            +ID_KAPAL+" TEXT, "
-//                    +NO_INDUK+" TEXT, "
-//                    +NO_IZIN+" TEXT, "
-//                    +NAMA_KAPAL+" TEXT, "
-//                    +PEMILIK+" TEXT, "
-//                    +ALAT_TANGKAP +" TEXT, "
-//                    +STATUS_IZIN+" TEXT "
 
               while (cursor.moveToNext())
               {

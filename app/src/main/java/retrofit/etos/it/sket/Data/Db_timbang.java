@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -49,7 +53,10 @@ public class Db_timbang extends SQLiteOpenHelper implements Db_timbangInt {
     @Override
     public void addTimbang(Timbang timbang) {
         SQLiteDatabase db = this.getWritableDatabase();
-        //this.onCreate(db);
+//
+//        String SQL = "DROP TABLE IF EXISTS "+TBL_NAME;
+//        db.execSQL(SQL);
+//        this.onCreate(db);
         try {
             ContentValues values = new ContentValues();
             values.put(BERAT, timbang.getBerat());
@@ -91,6 +98,11 @@ public class Db_timbang extends SQLiteOpenHelper implements Db_timbangInt {
     @Override
     public int getTimbangCount(int id) {
         return 0;
+    }
+
+    public void clearTable()   {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TBL_NAME, null,null);
     }
 
     @Override
@@ -187,9 +199,53 @@ public class Db_timbang extends SQLiteOpenHelper implements Db_timbangInt {
     }
 
     @Override
+    public JSONObject toJSONallTimbang() throws JSONException {
+        SQLiteDatabase db =this.getReadableDatabase();
+        String SQL = "Select * from " + TBL_NAME + " ORDER by " + ID + " DESC";
+        Cursor cursor = db.rawQuery(SQL,null);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        if(!cursor.isLast())
+        {
+
+            while (cursor.moveToNext())
+            {
+                JSONObject obj = new JSONObject();
+
+
+                obj.put("berat",cursor.getString(cursor.getColumnIndex(BERAT)));
+                obj.put("id_user",cursor.getString(cursor.getColumnIndex(ID_USER)));
+                obj.put("kode_timbang",cursor.getString(cursor.getColumnIndex(KODE_TIMBANG)));
+                obj.put("nama_ikan",cursor.getString(cursor.getColumnIndex(NAMA_IKAN)));
+                obj.put("status_timbang",cursor.getString(cursor.getColumnIndex(STATUS_TIMBANG)));
+                obj.put("tanggal_timbang",cursor.getString(cursor.getColumnIndex(TANGGAL_TIMBANG)));
+                obj.put("satuan",cursor.getString(cursor.getColumnIndex(SATUAN)));
+                obj.put("id_kapal",cursor.getString(cursor.getColumnIndex(ID_KAPAL)));
+                obj.put("id_ikan",cursor.getString(cursor.getColumnIndex(ID_IKAN)));
+                obj.put("id_timbang","0");
+                obj.put("upi",cursor.getString(cursor.getColumnIndex(UPI)));
+                obj.put("faktor_b",cursor.getString(cursor.getColumnIndex(FAKTOR_B)));
+                obj.put("faktor_a",cursor.getString(cursor.getColumnIndex(FAKTOR_A)));
+                obj.put("id_timbang_detail",cursor.getString(cursor.getColumnIndex(ID)));
+                obj.put("harga",cursor.getString(cursor.getColumnIndex(HARGA)));
+                obj.put("keyUnik",cursor.getString(cursor.getColumnIndex(KEY_UNIK)));
+
+
+                array.put(obj);
+
+            }
+        }
+        db.close();
+        Log.e("berhasil","data di load");
+        return jsonObject.put("list_timbang", array);
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         String SQL = "CREATE TABLE " + TBL_NAME + "("
-                +ID+" INTEGER PRIMARY KEY,"
+                +ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +BERAT+" TEXT, "
                 +ID_USER+" TEXT, "
                 +KODE_TIMBANG+" TEXT, "
@@ -214,4 +270,5 @@ public class Db_timbang extends SQLiteOpenHelper implements Db_timbangInt {
         String SQL = "DROP TABLE IF EXISTS "+TBL_NAME;
         db.execSQL(SQL);
     }
+
 }

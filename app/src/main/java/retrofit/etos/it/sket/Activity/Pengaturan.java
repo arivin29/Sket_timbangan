@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import retrofit.etos.it.sket.Data.Db_config;
 import retrofit.etos.it.sket.R;
 
 public class Pengaturan extends AppCompatActivity {
@@ -40,12 +41,15 @@ public class Pengaturan extends AppCompatActivity {
     private WifiManager wifiManager;
     ListView devicelist;
     public static String url ="http://arivin.xyz/TM/public/";
-    public static String ipMonitor = "http://192.168.1.10";
-    public static String monitorPort="3000";
+    public static String ipMonitor = "192.168.1.10";
+    public static String monitorPort="5000";
 
     private EditText textUrl;
     private EditText textIpMonitor;
-    private EditText textMonitorPort;
+    private EditText textMonitorPort, btnPaired;
+    TextView nama_bluetoth;
+
+    Db_config db_config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class Pengaturan extends AppCompatActivity {
         textUrl = (EditText) findViewById(R.id.input_url);
         textIpMonitor = (EditText) findViewById(R.id.input_ip_monito);
         textMonitorPort = (EditText) findViewById(R.id.input_monitor_port);
+        btnPaired = (EditText) findViewById(R.id.mac_bluetoth);
+        nama_bluetoth = (TextView) findViewById(R.id.nama_bluetoth);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -73,46 +79,70 @@ public class Pengaturan extends AppCompatActivity {
 
         //Wifi
 
-        final TextView wifi = (TextView) findViewById(R.id.wifi);
-        Button buttonWifi = (Button) findViewById(R.id.button);
-        buttonWifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String ssid = null;
-                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-
-                if(wifiManager.isWifiEnabled()){
-                    final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
-                    if (connectionInfo != null) {
-                        ssid = connectionInfo.getSSID();
-                    }
-                }else {
-                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                    final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
-                    ssid = connectionInfo.getSSID();
-                }
-                wifi.setText(ssid);
-            }
-        });
-
+//        final TextView wifi = (TextView) findViewById(R.id.wifi);
+//        Button buttonWifi = (Button) findViewById(R.id.button);
+//        buttonWifi.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                String ssid = null;
+//                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//                wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+//                NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+//
+//                if(wifiManager.isWifiEnabled()){
+//                    final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+//                    if (connectionInfo != null) {
+//                        ssid = connectionInfo.getSSID();
+//                    }
+//                }else {
+//                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+//                    final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+//                    ssid = connectionInfo.getSSID();
+//                }
+//                wifi.setText(ssid);
+//            }
+//        });
+        db_config = new Db_config(this);
         myBluetooth();
 
         Button simpan = (Button) findViewById(R.id.simpan_config);
         simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //simpan config ka db
+                db_config.editConfig("bt_mac",btnPaired.getText().toString());
+                db_config.editConfig("bt_nama",nama_bluetoth.getText().toString());
+                db_config.editConfig("server_url",textUrl.getText().toString());
+                db_config.editConfig("lcd_ip",textIpMonitor.getText().toString());
+                db_config.editConfig("lcd_port",textMonitorPort.getText().toString());
+
+                url =db_config.getConfig("server_ulr");
+                ipMonitor = db_config.getConfig("lcd_ip");
+                Log.e("ip monitor", db_config.getConfig("lcd_ip"));
+                monitorPort="5000";
+
                 PindahKaMain(address,name);
             }
         });
+
+        Onload();
+    }
+
+    private void Onload()
+    {
+        btnPaired.setText(db_config.getConfig("bt_mac"));
+        nama_bluetoth.setText(db_config.getConfig("bt_nama"));
+        textUrl.setText(db_config.getConfig("server_url"));
+        textIpMonitor.setText(db_config.getConfig("lcd_ip"));
+        textMonitorPort.setText(db_config.getConfig("lcd_port"));
 
     }
 
     private void myBluetooth()
     {
-        Button btnPaired = (Button) findViewById(R.id.togle_blutooth);
+
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
         if(myBluetooth == null)
         {
@@ -169,8 +199,10 @@ public class Pengaturan extends AppCompatActivity {
 
                 if(name != null)
                 {
-                    TextView TextBtpilih = (TextView) findViewById(R.id.pilhan_bt);
-                    TextBtpilih.setText("" + name + "/" + address);
+                    EditText mac_bluetoth = (EditText) findViewById(R.id.mac_bluetoth);
+                    TextView nama_bluetoth = (TextView) findViewById(R.id.nama_bluetoth);
+                    mac_bluetoth.setText(address);
+                    nama_bluetoth.setText(name );
                 }
 
 

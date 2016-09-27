@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,11 +25,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +49,7 @@ import retrofit.etos.it.sket.Api.IkanInterface;
 import retrofit.etos.it.sket.Api.KapalInterface;
 import retrofit.etos.it.sket.ApiCLient;
 import retrofit.etos.it.sket.Data.DB_kapal;
+import retrofit.etos.it.sket.Data.Db_config;
 import retrofit.etos.it.sket.Data.Db_timbang;
 import retrofit.etos.it.sket.Help.SocketKirim;
 import retrofit.etos.it.sket.Model.Ikan;
@@ -92,10 +97,14 @@ public class MainActivity extends AppCompatActivity {
     String keyUnik;
     public  static int id_ikan=0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        xSocket.connect();
+//        mSocket.connect();
 
         toolbar  = (Toolbar)findViewById(R.id.tool_bar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -124,7 +133,14 @@ public class MainActivity extends AppCompatActivity {
 
         confirmSimpanDataTimbang();
 
-        mSocket.connect();
+    }
+
+    private Socket  xSocket;
+    {
+        try {
+            xSocket = IO.socket("http://192.168.1.16:5000");
+
+        } catch (URISyntaxException e) {}
     }
 
     private void SimpanTimbang()
@@ -377,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<IkanRespon> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"APlikasi gagal load Data",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"APlikasi gagal load Data, cek koneksi internet",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -401,6 +417,23 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent i = new Intent(MainActivity.this, Pengaturan.class);
             startActivity(i);
+        }
+
+        if(id == R.id.action_user)
+        {
+            try {
+                mSocket.emit("send", db_kapal.toJSONallKapal());
+                mSocket.emit("send", db_timbang.toJSONallTimbang());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(id == R.id.trash_db)
+        {
+            db_kapal.clearTable();
+            db_timbang.clearTable();
+            Toast.makeText(getApplicationContext(),"database berhasil di kosongkan",Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -427,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
                 StatusBt=1;
                 Double Aa= Double.parseDouble(message.toString());
                 System.out.println("aaaa" + Aa);
-                ValueTimbang = 0.11;
+                ValueTimbang = Aa;
                 mSocket.emit("send",json);
             }
         });
@@ -568,8 +601,9 @@ public class MainActivity extends AppCompatActivity {
     private com.github.nkzawa.socketio.client.Socket mSocket;
     {
         try {
-            //mSocket = IO.socket("http://192.168.1.10:5000");
-            mSocket = IO.socket("http://"+ Pengaturan.ipMonitor +":"+ Pengaturan.monitorPort);
+            Log.e("lcd server", Pengaturan.ipMonitor);
+            mSocket = IO.socket("http://192.168.1.16:5000");
+//            mSocket = IO.socket("http://"+ Pengaturan.ipMonitor.toString() +":"+ Pengaturan.monitorPort);
             Log.e("CONNECTED", "SUCCESS");
         } catch (URISyntaxException e) {
             Log.e("CONNECTED", "SUCCESS" + e.getMessage());

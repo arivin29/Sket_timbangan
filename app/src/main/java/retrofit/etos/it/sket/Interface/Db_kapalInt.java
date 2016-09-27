@@ -1,5 +1,8 @@
 package retrofit.etos.it.sket.Interface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,4 +16,5 @@ public interface Db_kapalInt {
     public ArrayList<Kapal> getAllKapal();
     public Kapal getKapal(String keyUnik);
     public int getKapalCount();
+    public JSONObject toJSONallKapal() throws JSONException;
 }

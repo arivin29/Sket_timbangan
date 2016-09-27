@@ -1,5 +1,8 @@
 package retrofit.etos.it.sket.Interface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,4 +23,5 @@ public interface Db_timbangInt {
     public boolean updateData(String keyUnik);
     public  ArrayList<Timbang> ambilData(String keyUnik);
     public ArrayList<HashMap<String, String>> countTimbang(String keyUnik);
+    public JSONObject toJSONallTimbang() throws JSONException;
 }
